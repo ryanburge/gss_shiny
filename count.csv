@@ -1,0 +1,50 @@
+year,reltrad,partyid,count
+1972,evangelical,strong dem,54
+1972,evangelical,not strong dem,74
+1972,evangelical,lean dem,29
+1972,evangelical,independent,27
+1972,evangelical,lean rep,17
+1972,evangelical,not strong rep,50
+1972,evangelical,strong rep,22
+1972,mainline,strong dem,41
+1972,mainline,not strong dem,108
+1972,mainline,lean dem,39
+1972,mainline,independent,38
+1972,mainline,lean rep,45
+1972,mainline,not strong rep,109
+1972,mainline,strong rep,73
+1972,black prot,strong dem,103
+1972,black prot,not strong dem,68
+1972,black prot,lean dem,7
+1972,black prot,independent,7
+1972,black prot,lean rep,2
+1972,black prot,not strong rep,11
+1972,black prot,strong rep,4
+1972,catholic,strong dem,93
+1972,catholic,not strong dem,129
+1972,catholic,lean dem,47
+1972,catholic,independent,48
+1972,catholic,lean rep,20
+1972,catholic,not strong rep,44
+1972,catholic,strong rep,18
+1972,jewish,strong dem,12
+1972,jewish,not strong dem,24
+1972,jewish,lean dem,9
+1972,jewish,independent,5
+1972,jewish,lean rep,1
+1972,jewish,not strong rep,1
+1972,jewish,strong rep,1
+1972,other faith,strong dem,8
+1972,other faith,not strong dem,15
+1972,other faith,lean dem,11
+1972,other faith,independent,9
+1972,other faith,lean rep,4
+1972,other faith,not strong rep,3
+1972,other faith,strong rep,4
+1972,no faith,strong dem,13
+1972,no faith,not strong dem,11
+1972,no faith,lean dem,13
+1972,no faith,independent,22
+1972,no faith,lean rep,7
+1972,no faith,not strong rep,5
+1972,no faith,strong rep,4
