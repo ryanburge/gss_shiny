@@ -22,7 +22,7 @@ small_gss$partyid[small_gss$partyid == 7] <- NA
 
 
 
-small_gss$partyid <- factor(small_gss$partyid, levels = c(0,1,2,3,4,5, 6),labels = c("Strong Democrat", "Moderate Democrat", "Lean Democrat", "Independent","Lean Republican", "Moderate Republican", "Strong Republican"))
+small_gss$partyid <- factor(small_gss$partyid, levels = c(0,1,2,3,4,5,6),labels = c("Strong Democrat", "Moderate Democrat", "Lean Democrat", "Independent","Lean Republican", "Moderate Republican", "Strong Republican"))
 na_gss <- na.omit(small_gss)
 
 na_gss %>%  filter(mainline == 1 & year == 1972) %>% ggplot(aes(x= partyid, fill=factor(partyid)), color= factor(partyid)) + geom_bar() + theme(axis.text.x = element_text(angle = 90)) + scale_fill_brewer(palette="RdBu", direction=-1) + theme(legend.position="none")  + xlab("Party Identification") + ylab("Number of Respondents")

@@ -16,7 +16,7 @@ library(scales)
 library(car)
 
 
-gss <- read_csv("https://raw.githubusercontent.com/ryanburge/gss_shiny/master/small_gss")
+gss <- read_csv("https://raw.githubusercontent.com/ryanburge/gss_shiny/master/shiny.csv")
 year <- gss$year
 gss$partyid <- factor(gss$partyid, levels=unique(gss$partyid))
 gss <- na.omit(gss)
