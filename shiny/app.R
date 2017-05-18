@@ -32,7 +32,7 @@ gss$reltrad <- Recode(gss$reltrad, "1='Evangelical Protestants';
 
 ui <- shinyUI(fluidPage(
   
-  titlePanel("Party Identification"),
+  titlePanel("Party Identification of Religious Groups over the Last Four Decades"),
   
   fluidRow(
     column(4,
@@ -45,7 +45,14 @@ ui <- shinyUI(fluidPage(
     selectInput("trad", "Tradition:", as.character(levels(as.factor(gss$reltrad)))
                 , selectize=TRUE)),
     
-    column(8, 
+   
+    h5("This Shiny App has a full write-up at", a("Religion in Public", href="https://religioninpublic.blog/2017/05/11/44-years-of-religion-and-politics-in-one-graph/")),
+    h5("Some years are not available from the GSS and therefore no plot will be displayed"),
+    h5("There’s also the option to hit the “play” button and watch a tradition’s partisan distribution change over the entire time period."), 
+    
+    helpText("Data from the General Social Survey (1972-2016)"),
+    
+    column(12, 
       plotOutput("plot2")
     )
   )
