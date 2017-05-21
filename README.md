@@ -13,3 +13,6 @@ Building a GSS Shiny App
 ![Shiny App Screenshot](https://raw.githubusercontent.com/ryanburge/gss_shiny/master/screenshot.png)
 
 
+![PID and Literal Facets](https://raw.githubusercontent.com/ryanburge/gss_shiny/master/PID_literal.png)
+
+![PID and Literal Another Way](https://raw.githubusercontent.com/ryanburge/gss_shiny/master/literal_PID.png)
