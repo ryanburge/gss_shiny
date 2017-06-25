@@ -40,3 +40,68 @@ ggplot(pid, aes(x=year, y=mean, color = reltrad, label = reltrad)) + geom_point(
 
 ggsave(file="long.png", type = "cairo-png", width = 9, height = 10)
 
+
+gss <- gss_reltrad %>% 
+  group_by(year) %>% 
+  count(reltrad, wt = wtssall) %>% 
+  mutate(mean = prop.table(n)) %>% 
+  mutate(reltrad =as.numeric(reltrad)) %>% 
+  na.omit()
+
+gss$reltrad <- Recode(gss$reltrad, "1='Evangelical Protestants';
+2='Mainline Protestants';
+3='Black Protestants';
+4='Catholic';
+5='Jewish';
+6= 'Other Faith';
+7= 'No Faith'; else = NA")
+
+### NOW WITH ANIMATION
+
+
+i0<-nrow(gss)
+
+
+
+oopt = ani.options(interval = 0.1)
+saveGIF({for (i in 1:i0) {
+  g<- ggplot(gss, aes(x=year, y=mean*100, color = reltrad, label = reltrad)) + geom_smooth(data=gss[1:i,], aes(group=reltrad), se = FALSE) + 
+    theme(legend.title = element_blank()) +
+    scale_x_continuous(limits = c(1972,2016)) +
+    scale_y_continuous(limits = c(0,30)) +
+    theme(legend.position="bottom") +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    theme(text=element_text(size=28, family="KerkisSans")) + labs(x= "Year", y = "Percent of Population", title = "How has Religious Demography Shifted Over Time?", caption = "Data from the GSS (1972-2016)")+
+    scale_color_manual(values = c("yellow3", "black", "darkmagenta", "#00BE67","firebrick1", "#00BFC4", "dodgerblue4")) 
+  
+  print(g)
+  ani.pause()
+}
+  #Add a bunch of images to pause at end
+  
+  for (i2 in 1:30) {
+   
+   g<- ggplot(gss, aes(x=year, y=mean*100, color = reltrad, label = reltrad)) + geom_smooth(data=gss[1:i,], aes(group=reltrad), se = FALSE) + 
+      theme(legend.title = element_blank()) +
+      theme(legend.position="bottom") +
+     scale_x_continuous(limits = c(1972,2016)) +
+     scale_y_continuous(limits = c(0,30)) +
+      theme(plot.title = element_text(hjust = 0.5)) +
+      theme(text=element_text(size=28, family="KerkisSans")) + labs(x= "Year", y = "Percent of Population", title = "How has Religious Demography Shifted Over Time?", caption = "Data from the GSS (1972-2016)")+
+      scale_color_manual(values = c("yellow3", "black", "darkmagenta", "#00BE67","firebrick1", "#00BFC4", "dodgerblue4")) 
+    
+      
+    print(g)
+    ani.pause()
+  }
+},movie.name="your_awesome_gif.gif",ani.width = 800, ani.height = 500)
+
+ggplot(gss, aes(x=year, y=mean*100, color = reltrad, label = reltrad)) + geom_smooth(data=gss[1:i,], aes(group=reltrad), se = FALSE) + 
+  theme(legend.title = element_blank()) +
+  scale_x_continuous(limits = c(1972,2016)) +
+  theme(legend.position="bottom") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(text=element_text(size=28, family="KerkisSans")) + labs(x= "Year", y = "Percent of Population", title = "How has Religious Demography Shifted Over Time?", caption = "Data from the GSS (1972-2016)")+
+  scale_color_manual(values = c("yellow3", "black", "darkmagenta", "#00BE67","firebrick1", "#00BFC4", "dodgerblue4")) 
+
+ggsave(file="population_shifts_overall.png", type = "cairo-png", width = 15, height = 10)
