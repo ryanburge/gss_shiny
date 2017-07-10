@@ -6,6 +6,9 @@ library(scales)
 library(car)
 library(extrafont)
 
+library(haven)
+gss <- read_dta("C:/Users/Ryan Burge/Desktop/gss_reltrad.dta")
+
 gss <- read_csv("pid.csv")
 gss16 <- read_dta("D:/cces/data/gss16.dta")
 gss$X1 <- NULL
@@ -105,3 +108,38 @@ ggplot(gss, aes(x=year, y=mean*100, color = reltrad, label = reltrad)) + geom_sm
   scale_color_manual(values = c("yellow3", "black", "darkmagenta", "#00BE67","firebrick1", "#00BFC4", "dodgerblue4")) 
 
 ggsave(file="population_shifts_overall.png", type = "cairo-png", width = 15, height = 10)
+
+
+## Doing a Gender Plot 
+
+plot <- gss %>% filter(reltrad ==1 & race ==1 & partyid <=6) %>%  group_by(sex, year) %>% summarise(mean = mean(partyid, na.rm = TRUE))
+
+plot$sex <- as.numeric(plot$sex)
+
+plot$sex <- Recode(plot$sex, "1='White Evangelical Male';
+2='White Evangelical Female';
+else = NA")
+
+plot2 <- gss %>% filter(race ==1 & partyid <=6) %>%  group_by(sex, year) %>% summarise(mean = mean(partyid, na.rm = TRUE))
+
+plot2$sex <- as.numeric(plot2$sex)
+
+plot2$sex <- Recode(plot2$sex, "1='White Male';
+2='White Female';
+else = NA")
+
+plot3 <- bind_rows(plot, plot2)
+
+plot3$sex <- fct_relevel(plot3$sex, "White Female", "White Male", "White Evangelical Female", "White Evangelical Male")
+
+ggplot(plot3, aes(x=year, y=mean, color = sex, label = sex)) + 
+  coord_flip() + scale_y_continuous(limits= c(2,5), breaks = c(0,1,2,3,4,5,6), labels = c("Strong Democrat", "Not Strong Democrat", "Ind., Near Dem.", "Independent", "Ind., Near Rep.", "Not Strong Republican", "Strong Republican")) +
+  theme(legend.title = element_blank()) +
+  theme(legend.position="top") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(text=element_text(size=28, family="KerkisSans")) + labs(x= "Year", y = "Party Identification", title = "How has Partisanship Shifted Over Time?", caption = "Data from the GSS (1972-2016)")+
+  geom_smooth(se = FALSE, size =2) + scale_color_manual(values = c("mediumpurple1", "seagreen1", "mediumpurple4", "seagreen4","firebrick1", "#00BFC4", "dodgerblue4"))  
+
+ggsave(file="gender_pid_shift.png", type = "cairo-png", width = 15, height = 10)
+
+
