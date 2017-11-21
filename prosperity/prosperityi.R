@@ -102,6 +102,45 @@ g2 %>% filter(ideo != "NA") %>%
 
 ggsave(file="prospersity_ideo.png", type = "cairo-png", width = 20, height =12)
 
+
+g2 <- prosper %>%
+  group_by(ideo) %>%
+  summarise(mean= mean(pros, na.rm = TRUE),
+            sd = sd(pros, na.rm = TRUE),
+            n = n()) %>%
+  mutate(se = sd / sqrt(n),
+         lower = mean - qt(1 - (0.05 / 2), n - 1) * se,
+         upper = mean + qt(1 - (0.05 / 2), n - 1) * se) %>% mutate(ideo = Recode(ideo, "1='Democrat';
+                                                                                                 2='Independent ';
+                                                                                                 3='Republican'", as.factor = TRUE))
+
+prosper <- prosper %>% 
+  mutate(inc = recode(income06, "1:8='Less than $10,000'; 9:12='$10,000 to $20,000'; 13:16 ='$20,000 to $35,000'; 17:18= '$35,000 to $50,000'; 19:20 ='$50,000 to $75,000'; 21:22= '$75,000 to $110,000'; 23:24= '$110,000 to $150,000'; 25= '0ver $150,000'; else='NA'"))
+
+
+g3 <- prosper %>%
+  group_by(inc) %>%
+  summarise(mean= mean(pros, na.rm = TRUE),
+            sd = sd(pros, na.rm = TRUE),
+            n = n()) %>%
+  mutate(se = sd / sqrt(n),
+         lower = mean - qt(1 - (0.05 / 2), n - 1) * se,
+         upper = mean + qt(1 - (0.05 / 2), n - 1) * se) 
+
+g3$inc <- fct_relevel(g3$inc, "Less than $10,000", "$10,000 to $20,000", "$20,000 to $35,000", "$35,000 to $50,000", "$50,000 to $75,000", "$75,000 to $110,000", "$110,000 to $150,000", "0ver $150,000")
+
+
+g3 %>% filter(inc != "NA") %>%  
+  ggplot(., aes(x=mean, y=inc)) + geom_point(shape=21, size =4, aes(fill = factor(inc)), show.legend =  FALSE) + 
+  geom_errorbarh(aes(xmin = lower, xmax=upper,colour = factor(inc)), height=0, size = 1, show.legend = FALSE) + 
+  labs(x= "Mean Prosperity Score", y= "Household Income", title = "Household Income and the Prosperity Gospel", caption = "Data: 2012 GSS Cultural Module")  +
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  theme(text=element_text(size=28, family="KerkisSans"))
+
+ggsave(file="prospersity_inc.png", type = "cairo-png", width = 20, height =12)
+
+
+
 prosper <- prosper %>% mutate(white  = recode(race, "1=1; else=0"))
 
 reg <- prosper %>% filter(pros != "NA")
