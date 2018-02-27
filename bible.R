@@ -8,7 +8,7 @@ bible$fables <- Recode(bible$bible, "3=1; else=0")
 
 bible <- na.omit(bible)
 
-literal <- bible %>%  group_by(year, reltrad) %>% summarise(mean = mean(literal, na.rm = TRUE)) 
+literal <- bible %>%  group_by(year) %>% summarise(mean = mean(literal, na.rm = TRUE)) 
 
 inspired <- bible %>% group_by(year, reltrad) %>% summarise(mean = mean(inspired, na.rm = TRUE)) 
 
