@@ -137,7 +137,7 @@ ggplot(plot3, aes(x=year, y=mean, color = sex, label = sex)) +
   theme(legend.title = element_blank()) +
   theme(legend.position="top") +
   theme(plot.title = element_text(hjust = 0.5)) +
-  theme(text=element_text(size=28, family="KerkisSans")) + labs(x= "Year", y = "Party Identification", title = "How has Partisanship Shifted Over Time?", caption = "Data from the GSS (1972-2016)")+
+  theme(text=element_text(size=28, family="KerkisSans")) + labs(x= "Year", y = "Party Identification", title = "How Has Partisanship Shifted Over Time?", caption = "Data from the GSS (1972-2016)")+
   geom_smooth(se = FALSE, size =2) + scale_color_manual(values = c("mediumpurple1", "seagreen1", "mediumpurple4", "seagreen4","firebrick1", "#00BFC4", "dodgerblue4"))  
 
 ggsave(file="gender_pid_shift.png", type = "cairo-png", width = 15, height = 10)

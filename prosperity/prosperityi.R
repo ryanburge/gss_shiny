@@ -3,6 +3,8 @@ library(janitor)
 library(scales)
 library(extrafont)
 library(forcats)
+library(tidyverse)
+library(car)
 
 
 prosper <- read_csv("C:/Users/Ryan Burge/Desktop/prosper.csv") %>% clean_names()

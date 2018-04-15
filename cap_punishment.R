@@ -1,4 +1,10 @@
+library(tidyverse)
+library(extrafont)
+library(car)
+
+
 ## Death Penalty
+
 
 cap <- gss %>% select(year, bible, reltrad, partyid, cappun) %>% na.omit()
 
@@ -42,11 +48,14 @@ crime$natcrime <- Recode(crime$natcrime, "1=1; else=0")
 
 crim <- crime %>%  group_by(year, reltrad) %>% 
   count(natcrime) %>% mutate(pct = prop.table(n)) %>%  
-  filter(natcrime ==1) %>% select(year, pct)
+  filter(natcrime ==1) %>% select(year, pct) %>% ungroup(reltrad) %>%  mutate(reltrad = as.numeric(reltrad))
 
 crim1 <- crime %>%  group_by(year) %>% 
   count(natcrime) %>% mutate(pct = prop.table(n)) %>%  
-  filter(natcrime ==1) %>% select(year, pct) %>% mutate(reltrad = c("Entire Sample")) %>% rbind(crim)
+  filter(natcrime ==1) %>% select(year, pct) %>% mutate(reltrad = c("Entire Sample")) 
+
+crim <- bind_rows(crim, crim1)
+
 
 crim$reltrad <- Recode(crim$reltrad, "1='Evangelical Protestants';
                        2='Mainline Protestants';
@@ -56,7 +65,7 @@ crim$reltrad <- Recode(crim$reltrad, "1='Evangelical Protestants';
                         6= 'Other Faith';
                         7= 'No Faith'", as.factor = TRUE)
 
-ggplot(crim1, aes(x=year, y=pct*100, color = reltrad, label = reltrad)) +  
+ggplot(crim, aes(x=year, y=pct*100, color = reltrad, label = reltrad)) +  
   theme(legend.position="bottom") + theme(legend.title = element_blank()) +
   theme(plot.title = element_text(hjust = 0.5)) +
   theme(text=element_text(size=24, family="KerkisSans")) + labs(x= "Year", y = "% Saying Too Little", title = "The US is Spending Too Little on Halting the Rising Crime Rate ", caption = "Data from the GSS (1984-2016)")+
